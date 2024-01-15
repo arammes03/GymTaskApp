@@ -7,8 +7,10 @@ import { RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'todoapp';
+  title = 'todo-app';
+  welcome = 'hola';
+  tasks = ['Ir al gym', 'Sacar 100kg en banca', 'Tener 300kg en dl'];
 }
