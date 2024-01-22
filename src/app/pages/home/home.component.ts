@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
+import { Task } from '../../models/task.model';
 
 @Component({
   selector: 'app-home',
@@ -9,13 +10,38 @@ import { Component, signal } from '@angular/core';
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  tasks = signal(['Ir al gym', 'Sacar 100kg en banca', 'Tener 300kg en dl']);
+  tasks = signal<Task[]>([
+    {
+      id: Date.now(),
+      title: 'Ir al gym',
+      completed: false,
+    },
+    {
+      id: Date.now(),
+      title: 'Sacar 100kg en BP',
+      completed: true,
+    },
+    {
+      id: Date.now(),
+      title: 'Tirar 300kg en DL',
+      completed: false,
+    },
+  ]);
 
   // Handler que maneja la inserción de un nuevo task
   newTaskInputHandler(event: Event) {
     const input = event.target as HTMLInputElement;
     const newTask = input.value;
+    this.addTask(newTask);
+  }
 
+  // Metodo que añade una tarea
+  addTask(title: string) {
+    const newTask = {
+      id: Date.now(),
+      title: title,
+      completed: false,
+    };
     // Actualizamos nuestra lista de tasks sin resetear los datos
     this.tasks.update((tasks) => [...tasks, newTask]);
   }
@@ -27,5 +53,20 @@ export class HomeComponent {
     this.tasks.update((tasks) =>
       tasks.filter((task, position) => position !== index)
     );
+  }
+
+  // Handler que nos permite actualizar una tarea de completada a no o viceversa
+  updateTaskHandler(index: number) {
+    this.tasks.update((tasks) => {
+      return tasks.map((task, position) => {
+        if (position === index) {
+          return {
+            ...task,
+            completed: !task.completed,
+          };
+        }
+        return task;
+      });
+    });
   }
 }
