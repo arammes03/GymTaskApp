@@ -11,7 +11,7 @@ import { Component, signal } from '@angular/core';
 export class LabsComponent {
   title = 'todo-app';
   welcome = 'hola';
-  tasks = ['Ir al gym', 'Sacar 100kg en banca', 'Tener 300kg en dl'];
+  tasks = signal(['Ir al gym', 'Sacar 100kg en banca', 'Tener 300kg en dl']);
   name = signal('Alfonso');
   age = 20;
   disabled = true;
