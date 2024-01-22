@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 @Component({
   selector: 'app-labs',
@@ -12,7 +12,7 @@ export class LabsComponent {
   title = 'todo-app';
   welcome = 'hola';
   tasks = ['Ir al gym', 'Sacar 100kg en banca', 'Tener 300kg en dl'];
-  name = 'Alfonso';
+  name = signal('Alfonso');
   age = 20;
   disabled = true;
   img =
@@ -29,7 +29,9 @@ export class LabsComponent {
   }
 
   changeHandler(event: Event) {
-    console.log(event);
+    const input = event.target as HTMLInputElement;
+    const newInput = input.value;
+    this.name.set(newInput);
   }
 
   keydownHandler(event: KeyboardEvent) {
