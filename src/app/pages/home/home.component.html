@@ -8,17 +8,13 @@
         placeholder="Introduce tu objetivo"
         autofocus
         type="text"
-        (change)="newTaskInputHandler($event)"
+        [formControl]="newTaskCtrl"
+        (keydown.enter)="newTaskInputHandler()"
       />
     </div>
   </header>
   <div class="container todoapp-wrapper">
     <!-- This section should be hidden by default and shown when there are todos -->
-    <pre>
-      <code>
-        {{ tasks() | json }}
-      </code>
-    </pre>
     <section class="main">
       <ul class="todo-list">
         <li
