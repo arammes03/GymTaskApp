@@ -45,6 +45,17 @@ export class LabsComponent {
     });
   }
 
+  changeName(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newInput = input.value;
+    this.person.update((prevState) => {
+      return {
+        ...prevState,
+        name: newInput,
+      };
+    });
+  }
+
   keydownHandler(event: KeyboardEvent) {
     const input = event.target as HTMLInputElement;
     console.log(input.value);
