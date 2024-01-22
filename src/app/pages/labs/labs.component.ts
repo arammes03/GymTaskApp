@@ -18,11 +18,11 @@ export class LabsComponent {
   img =
     'https://www.elnacional.cat/enblau/uploads/s1/39/86/97/39/europapress-5033207-alonso-fernando-spa-aston-martin-f1-team-amr23-portrait-celebrates-with-the.jpeg';
 
-  person = {
+  person = signal({
     name: 'Alfonso',
     age: 20,
     avatar: 'https://w3schools.com/howto/img_avatar.png',
-  };
+  });
 
   clickHandler() {
     alert('Hola');
@@ -32,6 +32,17 @@ export class LabsComponent {
     const input = event.target as HTMLInputElement;
     const newInput = input.value;
     this.name.set(newInput);
+  }
+
+  changeAge(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newInput = input.value;
+    this.person.update((prevState) => {
+      return {
+        ...prevState,
+        age: parseInt(newInput, 10),
+      };
+    });
   }
 
   keydownHandler(event: KeyboardEvent) {

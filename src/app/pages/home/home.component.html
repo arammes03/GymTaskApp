@@ -68,9 +68,15 @@
     </section>
     <!-- This footer should be hidden by default and shown when there are todos -->
     <footer class="footer">
-      <span class="todo-count"
-        ><strong>{{ tasks().length }}</strong> item left</span
-      >
+      <span class="todo-count">
+        <!-- ngIf que dependiendo de la cantidad de tasks será plural/singular -->
+        <div *ngIf="tasks().length > 1; else elseItem">
+          <strong>{{ tasks().length }}</strong>
+          tareas restantes
+        </div>
+      </span>
+      <ng-template #elseItem>{{ tasks().length }} tarea restante</ng-template>
+
       <!-- Remove this if you don't implement routing -->
       <ul class="filters">
         <li>
