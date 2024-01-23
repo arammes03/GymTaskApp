@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  signal,
+  effect,
+  inject,
+  Injector,
+} from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { Task } from '../../models/task.model';
@@ -12,7 +19,7 @@ import { Task } from '../../models/task.model';
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  tasks = signal<Task[]>([
+  /*tasks = signal<Task[]>([
     {
       id: Date.now(),
       title: 'Ir al gym',
@@ -28,7 +35,30 @@ export class HomeComponent {
       title: 'Tirar 300kg en DL',
       completed: false,
     },
-  ]);
+  ]);*/
+  tasks = signal<Task[]>([]);
+
+  injector = inject(Injector);
+
+  ngOnInit() {
+    const storage = localStorage.getItem('Tasks');
+    if (storage) {
+      const tasks = JSON.parse(storage);
+      this.tasks.set(tasks);
+    }
+    this.trackTasks();
+  }
+
+  trackTasks() {
+    effect(
+      () => {
+        const tasks = this.tasks();
+        console.log(tasks);
+        localStorage.setItem('Tasks', JSON.stringify(tasks));
+      },
+      { injector: this.injector }
+    );
+  }
 
   filter = signal<'all' | 'pending' | 'completed'>('all');
   tasksByFilter = computed(() => {

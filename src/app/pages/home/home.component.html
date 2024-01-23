@@ -68,7 +68,7 @@
       </ul>
     </section>
     <!-- This footer should be hidden by default and shown when there are todos -->
-    <footer class="footer">
+    <footer class="footer" *ngIf="tasksByFilter().length > 0">
       <span class="todo-count">
         <strong>{{ tasksByFilter().length }}</strong>
         <span *ngIf="tasksByFilter().length === 1; else elseItem"> tarea</span>
