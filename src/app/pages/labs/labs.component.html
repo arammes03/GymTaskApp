@@ -54,14 +54,24 @@
   <h1>Signals</h1>
   <input type="text" [value]="name()" (change)="changeHandler($event)" />
   <p>name: {{ name() }}</p>
-
   <hr />
   <div *ngIf="1 === 1">Soy Alfonso</div>
+  @if (name() === "alfonso") {
+  <div>Soy Alfonso</div>
+  }
   <input type="number" [value]="person().age" (change)="changeAge($event)" />
   <div *ngIf="person().name === 'Alfonso' && person().age > 18; else elseBlock">
     Soy Alfonso y soy mayor de edad
   </div>
   <ng-template #elseBlock> Soy Alfonso y soy menor de edad</ng-template>
+
+  <!-- PRUEBAS VERSION 17-->
+  <h2>If else version 17</h2>
+  @if (person().name === 'Alfonso' && person().age > 18) {
+  <strong>Soy Alfonso y mayor de edad</strong>
+  } @else {
+  <i>Soy Alfonso y soy menor de edad</i>
+  }
 
   <hr />
   <input type="text" [value]="person().name" (change)="changeName($event)" />
@@ -102,4 +112,35 @@
     >
   </p>
   <p><input type="text" /></p>
+
+  <hr />
+  <h2>FOR VERSION 17</h2>
+  <ul>
+    <p>Total de elementos: {{ tasks().length }}</p>
+    <li *ngFor="let task of tasks(); index as i">{{ i }} {{ task }}</li>
+  </ul>
+  @for (task of tasks(); track task; let i = $index) {
+  <li>{{ i }} {{ task }}</li>
+  } @empty {
+  <li><strong>La lista esta vacia</strong></li>
+  }
+
+  <hr />
+  <h2>SWITCH VERSION 17</h2>
+  <input type="text" [value]="person().name" (change)="changeName($event)" />
+  <div [ngSwitch]="person().name">
+    <p *ngSwitchCase="'Alfonso'">Yo soy Alfonso</p>
+    <p *ngSwitchCase="'Lucia'">Yo soy Lucía</p>
+    <p *ngSwitchCase="'Cati'">Yo soy Cati</p>
+    <p *ngSwitchDefault>Nadie soy</p>
+  </div>
+  <div>
+    @switch (person().name) { @case ('Lucia') {
+    <p>soy lucia</p>
+    } @case ('Alfonso') {
+    <p>Soy Alfonso</p>
+    } @default {
+    <p>No soy nadie</p>
+    } }
+  </div>
 </div>

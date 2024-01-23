@@ -14,79 +14,82 @@
         type="text"
         [formControl]="newTaskCtrl"
         (keydown.enter)="newTaskInputHandler()"
-      />
-    </div>
-  </header>
+        />
+      </div>
+    </header>
 
-  <!-- Contenedor principal de la lista de tareas -->
-  <div class="container todoapp-wrapper">
-    <section class="main">
-      <!-- Lista de tareas -->
-      <ul class="todo-list">
-        <!-- Iteración sobre las tareas usando *ngFor -->
-        <!-- Aplicamos distintas clases dependiendo en que estado está la tarea -->
-        <li
-          (dblclick)="updateTaskEditingMode(i)"
-          *ngFor="let task of tasksByFilter(); index as i"
-          [class.completed]="task.completed"
-          [class.editing]="task.editing"
-        >
-          <div class="view">
-            <input
-              class="toggle"
-              type="checkbox"
-              [checked]="task.completed"
-              (change)="updateTaskHandler(i)"
-            />
-            <label>{{ task.title }}</label>
-            <!-- Botón para eliminar la tarea -->
-            <button class="destroy" (click)="deleteTaskHandler(i)"></button>
-          </div>
+    <!-- Contenedor principal de la lista de tareas -->
+    <div class="container todoapp-wrapper">
+      <section class="main">
+        <!-- Lista de tareas -->
+        <ul class="todo-list">
+          <!-- Iteración sobre las tareas usando *ngFor -->
+          <!-- Aplicamos distintas clases dependiendo en que estado está la tarea -->
+          @for (task of tasksByFilter(); track task; let i = $index) {
+            <li
+              (dblclick)="updateTaskEditingMode(i)"
+              [class.completed]="task.completed"
+              [class.editing]="task.editing"
+              >
+              <div class="view">
+                <input
+                  class="toggle"
+                  type="checkbox"
+                  [checked]="task.completed"
+                  (change)="updateTaskHandler(i)"
+                  />
+                  <label>{{ task.title }}</label>
+                  <!-- Botón para eliminar la tarea -->
+                  <button class="destroy" (click)="deleteTaskHandler(i)"></button>
+                </div>
+                <!-- Input para editar el título de la tarea -->
+                <!-- Manejador de eventos para la tecla Enter durante la edición -->
+                <input
+                  class="edit"
+                  (keydown.enter)="updateTaskTitle(i, $event)"
+                  [value]="task.title"
+                  />
+                </li>
+              }
+            </ul>
+          </section>
 
-          <!-- Input para editar el título de la tarea -->
-          <!-- Manejador de eventos para la tecla Enter durante la edición -->
-          <input
-            class="edit"
-            (keydown.enter)="updateTaskTitle(i, $event)"
-            [value]="task.title"
-          />
-        </li>
-      </ul>
-    </section>
+          <!-- Pie de la aplicación que muestra estadísticas y filtros -->
+          <footer class="footer">
+            <!-- Contador de tareas -->
+            <span class="todo-count">
+              <strong>{{ tasksByFilter().length }}</strong>
+              @if (tasksByFilter().length === 1) {
+                <span> tarea</span>
+              } @else {
+                tareas
+              }
+            </span>
 
-    <!-- Pie de la aplicación que muestra estadísticas y filtros -->
-    <footer class="footer">
-      <!-- Contador de tareas -->
-      <span class="todo-count">
-        <strong>{{ tasksByFilter().length }}</strong>
-        <span *ngIf="tasksByFilter().length === 1; else elseItem"> tarea</span>
-      </span>
+            <!-- Plantilla ngIf para manejar la pluralidad de tareas -->
 
-      <!-- Plantilla ngIf para manejar la pluralidad de tareas -->
-      <ng-template #elseItem> tareas</ng-template>
-
-      <!-- Filtros para mostrar tareas: Todas, Pendientes, Completadas -->
-      <ul class="filters">
-        <li>
-          <a (click)="changeFilter('all')" [class.selected]="filter() === 'all'"
-            >Todas</a
-          >
-        </li>
-        <li>
-          <a
-            (click)="changeFilter('pending')"
-            [class.selected]="filter() === 'pending'"
-            >Pendientes</a
-          >
-        </li>
-        <li>
-          <a
-            (click)="changeFilter('completed')"
-            [class.selected]="filter() === 'completed'"
-            >Completadas</a
-          >
-        </li>
-      </ul>
-    </footer>
-  </div>
-</section>
+            <!-- Filtros para mostrar tareas: Todas, Pendientes, Completadas -->
+            <ul class="filters">
+              <li>
+                <a (click)="changeFilter('all')" [class.selected]="filter() === 'all'"
+                  >Todas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    (click)="changeFilter('pending')"
+                    [class.selected]="filter() === 'pending'"
+                    >Pendientes</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      (click)="changeFilter('completed')"
+                      [class.selected]="filter() === 'completed'"
+                      >Completadas</a
+                      >
+                    </li>
+                  </ul>
+                </footer>
+              </div>
+            </section>
