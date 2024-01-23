@@ -1,8 +1,12 @@
+<!-- SECCIÓN PRINCIPAL DE LA APLICACIÓN-->
 <section class="todoapp">
   <header class="header">
     <div class="container">
       <h1>Mis Objetivos</h1>
       <p>Objetivos para dejar de ser un flaco</p>
+
+      <!-- Input para agregar nuevos objetivos -->
+      <!-- (keydown.enter) Manejador de eventos para la tecla Enter -->
       <input
         class="new-todo"
         placeholder="Introduce tu objetivo"
@@ -13,10 +17,14 @@
       />
     </div>
   </header>
+
+  <!-- Contenedor principal de la lista de tareas -->
   <div class="container todoapp-wrapper">
-    <!-- This section should be hidden by default and shown when there are todos -->
     <section class="main">
+      <!-- Lista de tareas -->
       <ul class="todo-list">
+        <!-- Iteración sobre las tareas usando *ngFor -->
+        <!-- Aplicamos distintas clases dependiendo en que estado está la tarea -->
         <li
           (dblclick)="updateTaskEditingMode(i)"
           *ngFor="let task of tasksByFilter(); index as i"
@@ -31,74 +39,54 @@
               (change)="updateTaskHandler(i)"
             />
             <label>{{ task.title }}</label>
+            <!-- Botón para eliminar la tarea -->
             <button class="destroy" (click)="deleteTaskHandler(i)"></button>
           </div>
+
+          <!-- Input para editar el título de la tarea -->
+          <!-- Manejador de eventos para la tecla Enter durante la edición -->
           <input
             class="edit"
             (keydown.enter)="updateTaskTitle(i, $event)"
             [value]="task.title"
           />
         </li>
-        <!-- 
-        <li class="completed">
-          <div class="view">
-            <input class="toggle" type="checkbox" checked />
-            <label>Learn JavaScript</label>
-            <button class="destroy"></button>
-          </div>
-          <input class="edit" value="Learn JavaScript" />
-        </li>
-        <li>
-          <div class="view">
-            <input class="toggle" type="checkbox" />
-            <label>Buy a unicorn</label>
-            <button class="destroy"></button>
-          </div>
-          <input class="edit" value="Buy a unicorn" />
-        </li>
-        <li class="editing">
-          <div class="view">
-            <input class="toggle" type="checkbox" />
-            <label>Make dishes</label>
-            <button class="destroy"></button>
-          </div>
-          <input class="edit" value="Make dishes" />
-        </li>
-         -->
       </ul>
     </section>
-    <!-- This footer should be hidden by default and shown when there are todos -->
-    <footer class="footer" *ngIf="tasksByFilter().length > 0">
+
+    <!-- Pie de la aplicación que muestra estadísticas y filtros -->
+    <footer class="footer">
+      <!-- Contador de tareas -->
       <span class="todo-count">
         <strong>{{ tasksByFilter().length }}</strong>
         <span *ngIf="tasksByFilter().length === 1; else elseItem"> tarea</span>
       </span>
+
+      <!-- Plantilla ngIf para manejar la pluralidad de tareas -->
       <ng-template #elseItem> tareas</ng-template>
 
-      <!-- Remove this if you don't implement routing -->
+      <!-- Filtros para mostrar tareas: Todas, Pendientes, Completadas -->
       <ul class="filters">
         <li>
           <a (click)="changeFilter('all')" [class.selected]="filter() === 'all'"
-            >All</a
+            >Todas</a
           >
         </li>
         <li>
           <a
             (click)="changeFilter('pending')"
             [class.selected]="filter() === 'pending'"
-            >Pending</a
+            >Pendientes</a
           >
         </li>
         <li>
           <a
             (click)="changeFilter('completed')"
             [class.selected]="filter() === 'completed'"
-            >Completed</a
+            >Completadas</a
           >
         </li>
       </ul>
-      <!-- Hidden if no completed items are left ↓ -->
-      <button class="clear-completed">Clear completed</button>
     </footer>
   </div>
 </section>
